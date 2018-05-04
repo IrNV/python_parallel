@@ -1,6 +1,8 @@
 import asyncio
 from math import sin, cos
 from time import clock
+from concurrent.futures import ProcessPoolExecutor
+from python_multiprocessing import Process
 
 
 def send_func(x):
@@ -13,15 +15,15 @@ def send_func(x):
 async def func(x):
     return send_func(x)
 
-a = clock()
-print(a)
+start_time = clock()
+print(start_time)
 loop = asyncio.get_event_loop()
 # 100 функций func
-tasks = [loop.create_task(func(i)) for i in range(100)]
+tasks = [loop.create_task(func(i)) for i in range(1000)]
 # print(tasks)
 wait_tasks = asyncio.wait(tasks)
 result = loop.run_until_complete(wait_tasks)
 # print(result)
-print(clock() - a)
+print(clock() - start_time)
 
 
